@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Ayam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .btn-enter {
+            background-color: #ff5733;
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+
+        .btn-enter:hover {
+            background-color: #c0392b;
+        }
+
+        .product-img {
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: #e74c3c;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+        }
+
+        .cart-item img {
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .cart-item p {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .cart-details-container {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bagian Selamat Datang -->
+    <div id="welcomeSection" class="container text-center">
+        <h1 class="display-3">Selamat Datang di Toko Ayam Sehat!</h1>
+        <p class="lead">Nikmati Ayam Lezat dengan Kualitas Terbaik</p>
+        <button class="btn btn-enter" onclick="showProducts()">Masuk ke Penjualan</button>
+    </div>
+
+    <!-- Bagian Produk -->
+    <div id="productsSection" class="container text-center hidden">
+        <h1 class="mb-5">Pilihan Produk Ayam Kami</h1>
+        <div class="row">
+            <!-- Produk 1 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="goreng.jpeg" class="card-img-top product-img" alt="Ayam Goreng">
+                    <div class="card-body">
+                        <h5 class="card-title">Ayam Goreng Spesial</h5>
+                        <p class="card-text">Ayam goreng yang renyah dan lezat, cocok untuk makan siang keluarga Anda.</p>
+                        <p class="price">Rp 45.000,-</p>
+                        <div class="mb-3">
+                            <label for="quantity1" class="form-label">Jumlah:</label>
+                            <input type="number" id="quantity1" class="quantity-input" min="1" value="1">
+                        </div>
+                        <button class="btn btn-enter" onclick="addToCart('Ayam Goreng Spesial', 45000, 'https://cdn.pixabay.com/photo/2016/03/05/19/02/food-1238828_1280.jpg', 'quantity1')">Beli</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produk 2 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="bakar.jpg" class="card-img-top product-img" alt="Ayam Bakar">
+                    <div class="card-body">
+                        <h5 class="card-title">Ayam Bakar Madu</h5>
+                        <p class="card-text">Ayam bakar dengan rasa manis dari madu yang menggugah selera.</p>
+                        <p class="price">Rp 55.000,-</p>
+                        <div class="mb-3">
+                            <label for="quantity2" class="form-label">Jumlah:</label>
+                            <input type="number" id="quantity2" class="quantity-input" min="1" value="1">
+                        </div>
+                        <button class="btn btn-enter" onclick="addToCart('Ayam Bakar Madu', 55000, 'https://cdn.pixabay.com/photo/2017/04/23/19/30/barbecue-2255210_1280.jpg', 'quantity2')">Beli</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produk 3 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="penyet.jpeg" class="card-img-top product-img" alt="Ayam Penyet">
+                    <div class="card-body">
+                        <h5 class="card-title">Ayam Penyet Sambal Terasi</h5>
+                        <p class="card-text">Ayam penyet dengan sambal terasi pedas yang menggugah selera.</p>
+                        <p class="price">Rp 40.000,-</p>
+                        <div class="mb-3">
+                            <label for="quantity3" class="form-label">Jumlah:</label>
+                            <input type="number" id="quantity3" class="quantity-input" min="1" value="1">
+                        </div>
+                        <button class="btn btn-enter" onclick="addToCart('Ayam Penyet Sambal Terasi', 40000, 'https://cdn.pixabay.com/photo/2021/01/30/13/15/fried-chicken-5964636_1280.jpg', 'quantity3')">Beli</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-enter mt-4" onclick="showOrderSummary()">Lihat Pesanan</button>
+    </div>
+
+    <!-- Bagian Detail Pesanan -->
+    <div id="orderSummarySection" class="container hidden">
+        <h1 class="text-center mb-4">Detail Pesanan Anda</h1>
+        <div id="cart-details" class="cart-details-container"></div>
+        <p class="lead text-center">Total Pesanan: <span id="total-price">Rp 0</span></p>
+        <div class="text-center">
+            <button class="btn btn-enter mt-4" onclick="showProducts()">Kembali ke Produk</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let cart = [];
+
+        function showProducts() {
+            document.getElementById('welcomeSection').classList.add('hidden');
+            document.getElementById('productsSection').classList.remove('hidden');
+            document.getElementById('orderSummarySection').classList.add('hidden');
+        }
+
+        function addToCart(productName, price, img, quantityInputId) {
+            const quantity = parseInt(document.getElementById(quantityInputId).value);
+            if (quantity <= 0 || isNaN(quantity)) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Jumlah harus lebih dari 0.',
+                    icon: 'error',
+                    confirmButtonText: 'Oke'
+                });
+                return;
+            }
+
+            const existingProduct = cart.find(item => item.productName === productName);
+            if (existingProduct) {
+                existingProduct.quantity += quantity;
+            } else {
+                cart.push({ productName, price, img, quantity });
+            }
+
+            Swal.fire({
+                title: 'Produk Ditambahkan!',
+                text: `${productName} sebanyak ${quantity} telah ditambahkan ke keranjang Anda.`,
+                icon: 'success',
+                confirmButtonText: 'Lanjutkan Belanja'
+            });
+        }
+
+        function showOrderSummary() {
+            let cartDetailsDiv = document.getElementById('cart-details');
+            let totalPrice = 0;
+            cartDetailsDiv.innerHTML = '';
+
+            cart.forEach(item => {
+                totalPrice += item.price * item.quantity;
+                cartDetailsDiv.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.productName}">
+                        <p>${item.productName} - Rp ${item.price.toLocaleString()} x ${item.quantity} = Rp ${(item.price * item.quantity).toLocaleString()}</p>
+                    </div>
+                `;
+            });
+
+            document.getElementById('total-price').innerText = `Rp ${totalPrice.toLocaleString()}`;
+            document.getElementById('productsSection').classList.add('hidden');
+            document.getElementById('orderSummarySection').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
